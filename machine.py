@@ -34,3 +34,19 @@ class Machine:
             return [var.solution_value() for var in self.decision_variables]
         else:
             return None
+    
+    def solverPLnode(self, indexes,sign,value):
+        for i in range(len(indexes)):
+            new_node = Node(indexes=indexes, sign=sign, value=value)
+            constraint_expr = sum(self.decision_variables[idx] * new_node.sign[idx] for idx in new_node.indexes)
+            if new_node.value == 'lower':
+                self.solver.add(constraint_expr >= 0)
+            elif new_node.value == 'upper':
+                self.solver.add(constraint_expr <=0)
+            status = self.solver.solver()
+            if status == pywraplp.Solver.OPTIMAL:
+                new_node.solution = [var.solution_value() for var in self.decision_variables]
+                new_node.cost = sum(new_node.solution[i] * self.objectiveCoefficients[i] for i in range(self.num_variables))
+                return new_node
+        return None
+    
