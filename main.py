@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
     optimal_solution, optimal_cost = machine.branch_and_bound(root)
 
-    print(f"GLOP\nSolução ótima: {optimal_solution}\nCusto: {optimal_cost}")
+    print(f"GLOP + Branch and Bound\nSolução ótima: {optimal_solution}\nCusto: {optimal_cost}")
 
     if optimal_solution == scip_solution and optimal_cost == scip_cost:
         print("Os resultados do SCIP e do GLOP + Branch and Bound estão iguais!")
