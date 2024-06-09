@@ -61,12 +61,10 @@ class Machine:
         return None
 
     def branch_and_bound(self, root):
-        open_nodes = [
-            Node(indexes=list(range(self.num_variables)), sign=[1] * self.num_variables, value='lower', solution=root, cost= sum(
-                    root[i] * self.objectiveCoefficients[i] for i in range(self.num_variables)))]
+        open_nodes = [Node(indexes=list(range(self.num_variables)), sign=[1] * self.num_variables, value='lower', solution=root,
+                 cost=sum(root[i] * self.objectiveCoefficients[i] for i in range(self.num_variables)))]
         best_node = None
         best_cost = float('inf')
-
         while open_nodes:
             current_node = open_nodes.pop(0)
             if current_node.cost >= best_cost:

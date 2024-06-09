@@ -26,8 +26,10 @@ if __name__ == '__main__':
     machine = Machine(objective, num_variables, constraints)
     root = machine.solve()
 
-    solution = machine.branch_and_bound(root)
-
+    if not all(isinstance(item, int) for item in root):
+        solution = machine.branch_and_bound(root)
+    else:
+        solution = root
 
     if solution:
         print("Solução ótima encontrada:")
