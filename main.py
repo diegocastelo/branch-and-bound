@@ -1,5 +1,4 @@
 from machine import Machine
-from bnb import BranchAndBound
 
 def read_data(filename):
     with open(filename, "r") as file:
@@ -14,10 +13,6 @@ def read_data(filename):
     for i in range(2, 2 + num_conditions):
         constraints.append(list(map(int, lines[i].split())))
 
-    print("Objective:", objective)
-    print("Variables:", num_variables)
-    print("Constraints:", constraints)
-
     return objective, num_variables, constraints
 
 
@@ -26,6 +21,11 @@ if __name__ == '__main__':
 
     machine = Machine(objective, num_variables, constraints)
     root = machine.solve()
+
+    values, cost = machine.solve_pl_model([0], ['>='], [1])
+
+    print(values)
+    print(cost)
 
     # bnb = BranchAndBound(info)
 

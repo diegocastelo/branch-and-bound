@@ -1,5 +1,5 @@
 class Node:
-    def __init__(self, status=None, indexes=None, sign=None, value=None, solution=None, cost=None):
+    def __init__(self, status=None, indexes=None, sign=None, value=None, solution=None, cost=None, solver=None):
         self.status = status
         self.indexes = indexes
         self.sign = sign

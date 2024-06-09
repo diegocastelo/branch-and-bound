@@ -1,6 +1,7 @@
 from ortools.linear_solver import pywraplp
 from node import Node
 
+
 class Machine:
     def __init__(self, objective, num_variables, constraints):
         self.objectiveCoefficients = objective
@@ -36,4 +37,37 @@ class Machine:
         else:
             return None
 
-    
+    def solve_pl_model(self, indices, sinais, valores):
+        aux_solver = pywraplp.Solver.CreateSolver('GLOP')
+        decision_variables = []
+
+        for i in range(self.num_variables):
+            decision_variables.append(aux_solver.IntVar(0, self.infinity, f'x{i}'))
+
+        for i, array in enumerate(self.constraints):
+            constraint = aux_solver.RowConstraint(array[-1], self.infinity, f'constraint_{i}')
+            for j, coefficient in enumerate(array[:-1]):
+                constraint.SetCoefficient(decision_variables[j], coefficient)
+
+        num_constraints = len(indices)
+
+        for i in range(num_constraints):
+            constraint = None
+
+            if sinais[i] == '<=':
+                constraint = aux_solver.RowConstraint(-aux_solver.infinity(), valores[i], '')
+            elif sinais[i] == '>=':
+                constraint = aux_solver.RowConstraint(valores[i], aux_solver.infinity(), '')
+
+            constraint.SetCoefficient(decision_variables[indices[i]], 1)
+
+        for i in range(self.num_variables):
+            self.objective.SetCoefficient(decision_variables[i], decision_variables[i])
+
+        self.objective.SetMinimization()
+
+        aux_solver.Solve()
+        values = [var.solution_value() for var in decision_variables]
+        cost = sum(values[i] * self.objectiveCoefficients[i] for i in range(len(values)))
+
+        return values, cost
