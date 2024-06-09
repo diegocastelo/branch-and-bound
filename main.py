@@ -1,4 +1,6 @@
 from machine import Machine
+from machineSCIP import MachineSCIP
+from node import Node
 
 def read_data(filename):
     with open(filename, "r") as file:
@@ -20,12 +22,16 @@ if __name__ == '__main__':
     objective, num_variables, constraints = read_data("input.txt")
 
     machine = Machine(objective, num_variables, constraints)
-    root = machine.solve()
+    machineSCIP = MachineSCIP(objective, num_variables, constraints)
+    scip_solution, statusSCIP = machineSCIP.solve()
+    print(f"Best solution: {scip_solution} with cost {statusSCIP}\n\n\n")
+    initial_solution, status = machine.solve()
 
-    values, cost = machine.solve_pl_model([0], ['>='], [5])
+    initial_cost = sum(initial_solution[i] * objective[i] for i in range(num_variables))
+    root = Node(solution=initial_solution, cost=initial_cost, status=status, indexes=[], signs=[], values=[])
 
-    print(values)
-    print(cost)
+    result = machine.branch_and_bound(root)
+
 
     # bnb = BranchAndBound(info)
 
