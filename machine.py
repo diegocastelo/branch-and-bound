@@ -75,6 +75,8 @@ class Machine:
         node.values = values
         node.indexes = indexes
         node.status = status
+        # print(aux_solver.ExportModelAsLpFormat(False))
+        # print(f"{node.solution} cost: {node.cost}")
         return node
 
 
@@ -83,6 +85,7 @@ class Machine:
 
     def create_child_nodes(self, node):
         for i, x in enumerate(node.solution):
+            # print(x)
             if not float(x).is_integer():
                 lower_bound = math.floor(x)
                 upper_bound = math.ceil(x)
@@ -115,7 +118,7 @@ class Machine:
             current_node = open_nodes.pop(0)
             if current_node.solution == array_zeros:
                 continue
-            #print(current_node.solution)
+            # print(current_node.solution)
             if self.is_integer_solution(current_node.solution):
                 if current_node.cost < best_cost:
                     best_solution = current_node.solution
