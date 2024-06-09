@@ -24,7 +24,10 @@ if __name__ == '__main__':
     objective, num_variables, constraints = read_data("input.txt")
 
     machine = Machine(objective, num_variables, constraints)
-    solution = machine.solve()
+    root = machine.solve()
+
+    solution = machine.branch_and_bound(root)
+
 
     if solution:
         print("Solução ótima encontrada:")
