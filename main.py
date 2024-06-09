@@ -22,7 +22,7 @@ if __name__ == '__main__':
     machine = Machine(objective, num_variables, constraints)
     root = machine.solve()
 
-    values, cost = machine.solve_pl_model([0], ['>='], [1])
+    values, cost = machine.solve_pl_model([0], ['>='], [5])
 
     print(values)
     print(cost)

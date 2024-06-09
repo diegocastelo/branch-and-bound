@@ -39,6 +39,7 @@ class Machine:
 
     def solve_pl_model(self, indices, sinais, valores):
         aux_solver = pywraplp.Solver.CreateSolver('GLOP')
+        objective = aux_solver.Objective()
         decision_variables = []
 
         for i in range(self.num_variables):
@@ -62,9 +63,9 @@ class Machine:
             constraint.SetCoefficient(decision_variables[indices[i]], 1)
 
         for i in range(self.num_variables):
-            self.objective.SetCoefficient(decision_variables[i], decision_variables[i])
+            objective.SetCoefficient(decision_variables[i], self.objectiveCoefficients[i])
 
-        self.objective.SetMinimization()
+        objective.SetMinimization()
 
         aux_solver.Solve()
         values = [var.solution_value() for var in decision_variables]
