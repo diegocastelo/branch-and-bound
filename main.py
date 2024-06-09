@@ -1,4 +1,5 @@
 from machine import Machine
+from bnb import BranchAndBound
 
 def read_data(filename):
     with open(filename, "r") as file:
@@ -26,14 +27,30 @@ if __name__ == '__main__':
     machine = Machine(objective, num_variables, constraints)
     root = machine.solve()
 
-    if not all(isinstance(item, int) for item in root):
-        solution = machine.branch_and_bound(root)
-    else:
-        solution = root
+    # bnb = BranchAndBound(info)
 
-    if solution:
-        print("Solução ótima encontrada:")
-        for i, value in enumerate(solution):
-            print(f'x{i+1} = {value}')
-    else:
-        print("Nenhuma solução ótima encontrada.")
+
+
+    #
+    # if root:
+    #     print("Solução ótima encontrada:")
+    #     for i, value in enumerate(root):
+    #         print(f'x{i + 1} = {value}')
+    # else:
+    #     print("Nenhuma solução ótima encontrada.")
+
+
+
+
+
+    # if not all(isinstance(item, int) for item in root):
+    #     solution = machine.branch_and_bound(root)
+    # else:
+    #     solution = root
+    #
+    # if solution:
+    #     print("Solução ótima encontrada:")
+    #     for i, value in enumerate(solution):
+    #         print(f'x{i+1} = {value}')
+    # else:
+    #     print("Nenhuma solução ótima encontrada.")
