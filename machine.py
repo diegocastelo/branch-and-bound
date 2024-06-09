@@ -115,7 +115,7 @@ class Machine:
             current_node = open_nodes.pop(0)
             if current_node.solution == array_zeros:
                 continue
-            print(current_node.solution)
+            #print(current_node.solution)
             if self.is_integer_solution(current_node.solution):
                 if current_node.cost < best_cost:
                     best_solution = current_node.solution
@@ -129,6 +129,6 @@ class Machine:
                 open_nodes.extend(child_nodes)
 
         if best_solution is not None:
-            print(f"Best solution: {best_solution} with cost {best_cost}")
+            return best_solution, best_cost
         else:
-            print("No feasible solution found.")
+            return "Nenhuma solução viável encontrada.", "Custo inexistente"

@@ -22,16 +22,24 @@ if __name__ == '__main__':
     objective, num_variables, constraints = read_data("input.txt")
 
     machine = Machine(objective, num_variables, constraints)
+
     machineSCIP = MachineSCIP(objective, num_variables, constraints)
-    scip_solution, statusSCIP = machineSCIP.solve()
-    print(f"Best solution: {scip_solution} with cost {statusSCIP}\n\n\n")
+    scip_solution, scip_cost = machineSCIP.solve()
+    print(f"SCIP:\nSolução ótima: {scip_solution}\nCusto: {scip_cost}\n")
+
     initial_solution, status = machine.solve()
 
     initial_cost = sum(initial_solution[i] * objective[i] for i in range(num_variables))
     root = Node(solution=initial_solution, cost=initial_cost, status=status, indexes=[], signs=[], values=[])
 
-    result = machine.branch_and_bound(root)
+    optimal_solution, optimal_cost = machine.branch_and_bound(root)
 
+    print(f"GLOP\nSolução ótima: {optimal_solution}\nCusto: {optimal_cost}")
+
+    if optimal_solution == scip_solution and optimal_cost == scip_cost:
+        print("Os resultados do SCIP e do GLOP + Branch and Bound estão iguais!")
+    else:
+        print("Os resultados do SCIP e do GLOP + Branch and Bound não estão iguais!")
 
     # bnb = BranchAndBound(info)
 
