@@ -41,30 +41,3 @@ if __name__ == '__main__':
     else:
         print("Os resultados do SCIP e do GLOP + Branch and Bound não estão iguais!")
 
-    # bnb = BranchAndBound(info)
-
-
-
-    #
-    # if root:
-    #     print("Solução ótima encontrada:")
-    #     for i, value in enumerate(root):
-    #         print(f'x{i + 1} = {value}')
-    # else:
-    #     print("Nenhuma solução ótima encontrada.")
-
-
-
-
-
-    # if not all(isinstance(item, int) for item in root):
-    #     solution = machine.branch_and_bound(root)
-    # else:
-    #     solution = root
-    #
-    # if solution:
-    #     print("Solução ótima encontrada:")
-    #     for i, value in enumerate(solution):
-    #         print(f'x{i+1} = {value}')
-    # else:
-    #     print("Nenhuma solução ótima encontrada.")
