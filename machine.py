@@ -56,7 +56,7 @@ class Machine:
             constraint = None
 
             if signs[i] == '<=':
-                constraint = aux_solver.RowConstraint(-aux_solver.infinity(), values[i], '')
+                constraint = aux_solver.RowConstraint(0, values[i], '')
             elif signs[i] == '>=':
                 constraint = aux_solver.RowConstraint(values[i], aux_solver.infinity(), '')
 
@@ -87,16 +87,16 @@ class Machine:
         for i, x in enumerate(node.solution):
             # print(x)
             if not float(x).is_integer():
-                lower_bound = math.floor(x)
-                upper_bound = math.ceil(x)
+                lower_value = math.floor(x)
+                upper_value = math.ceil(x)
 
                 lower_indexes = node.indexes + [i]
                 lower_signs = node.signs + ["<="]
-                lower_values = node.values + [lower_bound]
+                lower_values = node.values + [lower_value]
 
                 upper_indexes = node.indexes + [i]
                 upper_signs = node.signs + [">="]
-                upper_values = node.values + [upper_bound]
+                upper_values = node.values + [upper_value]
 
                 lower_node = self.solve_pl_model(lower_indexes, lower_signs, lower_values)
                 upper_node = self.solve_pl_model(upper_indexes, upper_signs, upper_values)
